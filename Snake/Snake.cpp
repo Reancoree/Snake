@@ -9,6 +9,8 @@ const int height = 20;
 int x, y, fruitX, fruitY, score;
 enum Direction { STOP = 0, LEFT, RIGHT, UP, DOWN };
 Direction dir;
+int tailX[100], tailY[100];
+int lTail;
 
 void FixSnakeSpeed()
 {
@@ -55,7 +57,21 @@ void Draw()
 			else if (i == fruitY && j == fruitX)
 				cout << '*';
 
-			else cout << ' ';
+			else
+			{
+				bool print = false;
+				for (int k = 0; k < lTail; k++)
+				{
+					if (tailX[k] == j && tailY[k] == i)
+					{
+						cout << 'o';
+						print = true;
+					}
+				}
+
+				if (!print)
+					cout << ' ';
+			}
 
 			if (j == width - 1)
 				cout << (char)254;
@@ -92,6 +108,23 @@ void Input()
 }
 void Logic()
 {
+	int prevX = tailX[0];
+	int prevY = tailY[0];
+	int prev2X, prev2Y;
+	tailX[0] = x;
+	tailY[0] = y;
+
+	for (int i = 1; i < lTail; i++)
+	{
+		prev2X = tailX[i];
+		prev2Y = tailY[i];
+		tailX[i] = prevX;
+		tailY[i] = prevY;
+		prevX = prev2X;
+		prevY = prev2Y;
+
+	}
+
 	switch (dir)
 	{
 	case LEFT:
@@ -110,9 +143,13 @@ void Logic()
 	if (x < 0 || x > width || y < 0 || y > height)
 		gameOver = true;
 
+	for (int i = 0; i < lTail; i++)
+		if (tailX[i] == x && tailY[i] == y)
+			gameOver = true;
 
 	if (x == fruitX && y == fruitY)
 	{
+		lTail++;
 		score += 1;
 		fruitX = rand() % width;
 		fruitY = rand() % height;
