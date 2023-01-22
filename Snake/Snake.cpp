@@ -1,14 +1,29 @@
 ﻿#include <iostream>
 #include <conio.h>
+#include <windows.h>
 using namespace std;
 
 bool gameOver;
 const int width = 30;
-const int height = 30;
+const int height = 20;
 int x, y, fruitX, fruitY, score;
 enum Direction { STOP = 0, LEFT, RIGHT, UP, DOWN };
 Direction dir;
 
+void FixSnakeSpeed()
+{
+	if (dir == LEFT || dir == RIGHT)
+	{
+		Sleep(5);
+	}
+
+	Sleep(100);
+
+	if (dir == UP || dir == DOWN)
+	{
+		Sleep(60);
+	}
+}
 void Setup()
 {
 	gameOver = false;
@@ -22,9 +37,10 @@ void Setup()
 void Draw()
 {
 	system("cls");
-
-	for (int i = 0; i < width + 1; i++)
+	
+	for (int i = 0; i < width + 2; i++)
 		cout << (char)254;
+	cout << "      Score: " << score;
 	cout << endl;
 
 	for (int i = 0; i < height; i++)
@@ -47,7 +63,7 @@ void Draw()
 		cout << endl;
 	}
 
-	for (int i = 0; i < width + 1; i++)
+	for (int i = 0; i < width + 2; i++)
 		cout << (char)254;
 }
 void Input()
@@ -76,15 +92,42 @@ void Input()
 }
 void Logic()
 {
+	switch (dir)
+	{
+	case LEFT:
+		x--;
+		break;
+	case RIGHT:
+		x++;
+		break;
+	case UP:
+		y--;
+		break;
+	case DOWN:
+		y++;
+		break;
+	}
+	if (x < 0 || x > width || y < 0 || y > height)
+		gameOver = true;
 
+
+	if (x == fruitX && y == fruitY)
+	{
+		score += 1;
+		fruitX = rand() % width;
+		fruitY = rand() % height;
+	}
+		
 }
 
 int main()
 {
+	
 	Setup();
 	while (!gameOver)
 	{
 		Draw();
+		FixSnakeSpeed();
 		Input();
 		Logic();
 	}
