@@ -3,7 +3,7 @@
 #include <windows.h>
 using namespace std;
 
-bool gameOver; int width; int height;
+bool gameOver; unsigned int width = 30; unsigned int height = 20;
 int x, y, fruitX, fruitY, score;
 enum Direction { STOP = 0, LEFT, RIGHT, UP, DOWN };
 Direction dir;
@@ -136,7 +136,7 @@ void Logic()
 		y++;
 		break;
 	}
-	if (x < 0 || x > width || y < 0 || y > height)
+	if (x <= 0 || x >= width || y <= 0 || y >= height)
 		gameOver = true;
 
 	if (throughWall)
@@ -174,11 +174,8 @@ void StartScreen()
 			int value; cin >> value;
 			if (value == 1)
 				speed = 200;
-			else if (value == 2)
-				speed = 75;
-			break;
-		case 3:
-			start = true;
+			else if (value == 2);
+				else speed = 75;
 			break;
 		case 2:
 			cout << "Will the snake pass through the wall?\n\t1. Yes\n\t2. No\n";
@@ -187,10 +184,15 @@ void StartScreen()
 				throughWall = true;
 			else throughWall = false;
 			break;
+		case 3:
+			start = true;
+			break;
 		case 4:
 			cout << "Set width - "; cin >> width; cout << endl;
 			cout << "Set height - "; cin >> height;
-			
+
+			if (width <= 0 || height <= 0) width = 30; height = 20;
+			break;
 
 		default:			
 			break;
