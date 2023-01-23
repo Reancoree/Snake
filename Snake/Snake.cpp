@@ -3,9 +3,7 @@
 #include <windows.h>
 using namespace std;
 
-bool gameOver;
-const int width = 30;
-const int height = 20;
+bool gameOver; int width; int height;
 int x, y, fruitX, fruitY, score;
 enum Direction { STOP = 0, LEFT, RIGHT, UP, DOWN };
 Direction dir;
@@ -102,9 +100,6 @@ void Input()
 		case 's':
 			dir = DOWN;
 			break;
-		case 'esc':
-			gameOver = false;
-			break;
 		}
 	}
 }
@@ -169,7 +164,7 @@ void StartScreen()
 	while (start != true)
 	{
 		system("cls");
-		cout << "\n\n\t 1. Choose speed\n\t 2. Choose Gamemode \n\t 3. Start game";
+		cout << "\n\n\t 1. Choose speed\n\t 2. Choose Gamemode \n\t 3. Start game\n\t 4. Choose map size";
 		int choice; cout << "\n\t"; cin >> choice;
 	
 		switch (choice)
@@ -186,12 +181,16 @@ void StartScreen()
 			start = true;
 			break;
 		case 2:
-			cout << "Will the snake pass through the wall?\n\t 1. Yes\n\t2. No\n";
+			cout << "Will the snake pass through the wall?\n\t1. Yes\n\t2. No\n";
 			int gameModeValue; cin >> gameModeValue;
 			if (gameModeValue == 1)
 				throughWall = true;
 			else throughWall = false;
 			break;
+		case 4:
+			cout << "Set width - "; cin >> width; cout << endl;
+			cout << "Set height - "; cin >> height;
+			
 
 		default:			
 			break;
