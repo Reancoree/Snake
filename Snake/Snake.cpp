@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <conio.h>
 #include <windows.h>
+#include <ctime>
 using namespace std;
 
 bool gameOver; unsigned int width = 30; unsigned int height = 20;
@@ -28,6 +29,7 @@ void FixSnakeSpeed()
 }
 void Setup()
 {
+	srand(time(NULL));
 	gameOver = false;
 	dir = STOP;
 	x = width / 2;
